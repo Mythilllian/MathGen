@@ -1,4 +1,7 @@
 ﻿using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
+using NCalc;
+using NCalc.Domain;
 
 namespace MathProblemGenerator
 {
@@ -33,6 +36,37 @@ namespace MathProblemGenerator
             {
                 variable.getVal(rand);
             }
+
+            List<Expression> expressions = new List<Expression>();
+            foreach (string expressionStr in GetBetween(problemText, '`'))
+            {
+                Expression expression = new Expression(expressionStr);
+                SetVariables(ref expression, variables.ToArray());
+                expressions.Add(expression);
+            }
+        }
+
+        void SetVariables(ref Expression expression,Variable[] variables)
+        {
+            foreach(var variable in variables)
+            {
+                expression.Parameters[variable.character.ToString()] = variable.val;
+            }
+        }
+
+        string[] GetBetween(string input, char seperator)
+        {
+            string pattern = seperator + @"([^" + seperator + @"]+)`";
+
+            MatchCollection matches = Regex.Matches(input, pattern);
+            List<string> resultArray = new List<string>();
+
+            for (int i = 0; i < matches.Count; i++)
+            {
+                resultArray.Add(matches[i].Groups[1].Value);
+            }
+
+            return resultArray.ToArray();
         }
     }
 }
