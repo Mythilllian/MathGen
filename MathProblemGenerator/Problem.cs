@@ -9,9 +9,14 @@ namespace MathProblemGenerator
 
         [JsonPropertyName("txt")]
         string problemText;
+        //Format:
+        //The man bought {x} apples and {y} bananas.
+        //How many fruits did he buy?
 
         [JsonPropertyName("ans")]
         double answer;
+        //Format:
+        //{x+y}
 
         [JsonIgnore]
         Random rand;
