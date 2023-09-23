@@ -56,7 +56,11 @@ namespace MathProblemGenerator
         {
             foreach(var variable in variables)
             {
-                expression.Parameters[variable.character.ToString()] = variable.val;
+                try
+                {
+                    expression.Parameters[variable.character.ToString()] = variable.val;
+                }
+                catch { }
             }
             return (string)expression.Evaluate();
         }
